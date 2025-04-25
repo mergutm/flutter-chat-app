@@ -1,5 +1,7 @@
 //impm
 import 'package:flutter/material.dart';
+import 'package:myapp/view/widgets/chat/bubble_message.dart';
+import 'package:myapp/view/widgets/chat/other_message.dart';
 
 //stleswi
 
@@ -43,14 +45,17 @@ class _ChatView extends StatelessWidget {
             //Expanded(child: Container(color: Colors.amber)),
             Expanded(
               child: ListView.builder(
-                itemCount: 100,
+                itemCount: 10,
                 itemBuilder: (context, index) {
-                  return Text('Prueba $index');
+                  //return BubbleMessage();
+                  //return OtherMessage();
+                  return index % 2 == 0
+                      ? const OtherMessage()
+                      : const BubbleMessage();
                 },
               ),
             ),
-            
-            Text('Prueba 01'),
+            Text('Pruebita 01'),
             Text('Prueba 02'),
           ],
         ),

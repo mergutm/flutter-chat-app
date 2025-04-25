@@ -367,6 +367,8 @@ class _ChatView extends StatelessWidget {
             
             Text('Prueba 01'),
             Text('Prueba 02'),
+            Text('Prueba 03'),
+            
           ],
         ),
       ),
@@ -378,13 +380,225 @@ class _ChatView extends StatelessWidget {
 <img src='images/chat_app06.png' alt='chat_app06' width='40%'>
 
 
+
+# Mosdificación del chat para tener un widget por cada mensaje.
+Crear el archivo `lib/view/widgets/chat/bubble_message.dart`
+
+Crearlo usando:
+1. Crear un Widget de tipo Text / el return del `StatelessWidget`  será solo el Text.
+2. Envolverlo con un Padding 
+3. Envolverlo con un Container
+
+
 ```dart
+import 'package:flutter/material.dart';
+
+class BubbleMessage extends StatelessWidget {
+  const BubbleMessage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return   Text("Mensaje: hola pruebita!!", 
+                  style: TextStyle(color: Colors.blue) 
+    );
+  }
+}
+```
+Llegar hasta este punto
+
+```dart
+import 'package:flutter/material.dart';
+
+class BubbleMessage extends StatelessWidget {
+  const BubbleMessage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors =  Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: colors.primary, //toma el color del tema
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding:  //const EdgeInsets.all(8.0),
+            EdgeInsets.symmetric(horizontal: 20, vertical: 5), 
+            child: Text("Mensaje: hola pruebita!!", 
+                  style: TextStyle(color: Colors.blue),),
+          ),
+        ),
+        SizedBox(height: 10, width: 10,)
+      ],
+    );
+  }
+}
+
+```
+# Bubble Message
+
+```dart
+import 'package:flutter/material.dart';
+
+class BubbleMessage extends StatelessWidget {
+  const BubbleMessage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: colors.primary,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: //const EdgeInsets.all(8.0),
+                EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: Text(
+              "Mensaje: hola pruebita!!",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+      ],
+    );
+  }
+}
 
 ```
 
+
+# Mensajes de la otra persona
+
 ```dart
+import 'package:flutter/material.dart';
+
+class OtherMessage extends StatelessWidget {
+  const OtherMessage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: colors.secondary,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: //const EdgeInsets.all(8.0),
+                EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: Text(
+              "Otro: mensaje!!",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+        SizedBox(height: 5),
+        _BurbujaImagen(),
+      ],
+    );
+  }
+}
+
+class _BurbujaImagen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Placeholder();
+  }
+}
 
 ```
+
+# Modificar chat_screen.dart
+
+```dart
+Expanded(
+              child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  //return BubbleMessage();
+                  //return OtherMessage();
+                  return index % 2 == 0
+                      ? const OtherMessage()
+                      : const BubbleMessage();
+                },
+              ),
+            )
+```
+
+
+# Probar con el API
+
+```bash
+curl https://yesno.wtf/api 
+```
+Genera una respuesta como:
+```json
+{
+  "answer": "no",
+  "forced": false,
+  "image": "https://yesno.wtf/assets/no/25-55dc62642f92cf4110659b3c80e0d7ec.gif"
+}
+```
+
+```json
+{
+  "answer": "yes",
+  "forced": false,
+  "image": "https://yesno.wtf/assets/yes/5-64c2804cc48057b94fd0b3eaf323d92c.gif"
+}
+```
+
+
+
+## Ajustes temporales a Burbuja
+
+```dart
+
+class _BurbujaImagen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    //obtnener dimensiones del dispositivo
+    final size = MediaQuery.of(context).size;
+    // para ver la salida en consola.
+    // print(size);
+    // return Placeholder();
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Image.network(
+        "https://yesno.wtf/assets/yes/5-64c2804cc48057b94fd0b3eaf323d92c.gif",
+        width: size.width * 0.7,
+        height: 100,
+        //fit: BoxFit.cover,
+        fit: BoxFit.contain,
+      ),
+    );
+  }
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Crear un zip del proyecto
 ```bash
