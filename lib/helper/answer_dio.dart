@@ -16,3 +16,10 @@ class GetYesNoAnswer {
 }
 
 // flutter pub add dio
+
+// final dio = Dio();
+
+// void getHttp() async {
+//   final response = await dio.get('https://dart.dev');
+//   print(response);
+// }
