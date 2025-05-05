@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/view/widgets/chat/bubble_message.dart';
 import 'package:myapp/view/widgets/chat/other_message.dart';
+import 'package:myapp/view/widgets/providers/chat_provider.dart';
+import 'package:provider/provider.dart';
 
 //stleswi
 
@@ -35,6 +37,8 @@ class _ChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final chatProvider = context.watch<ChatProvider>();
+
     return SafeArea(
       child: Padding(
         //padding: const EdgeInsets.all(8.0),
@@ -45,6 +49,7 @@ class _ChatView extends StatelessWidget {
             //Expanded(child: Container(color: Colors.amber)),
             Expanded(
               child: ListView.builder(
+                controller: chatProvider.chatScrollController,
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   //return BubbleMessage();

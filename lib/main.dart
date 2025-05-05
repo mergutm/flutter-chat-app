@@ -8,11 +8,17 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      
+      providers: [
+        ChangeNotifierProvider(create: (_) => ChatProvider() )
+      ],
+      child:      MaterialApp(
       theme: AppTheme(indexColor: 1).theme(),
       debugShowCheckedModeBanner: false,
       title: 'Material App',
       home: ChatScreen(),
-    );
+      //home: RecipeBook(),
+    ));
   }
 }
