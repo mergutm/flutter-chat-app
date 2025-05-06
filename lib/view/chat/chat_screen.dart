@@ -1,8 +1,10 @@
 //impm
 import 'package:flutter/material.dart';
+import 'package:myapp/model/message.dart';
 import 'package:myapp/view/widgets/chat/bubble_message.dart';
 import 'package:myapp/view/widgets/chat/other_message.dart';
 import 'package:myapp/view/widgets/providers/chat_provider.dart';
+import 'package:myapp/view/widgets/shared/fieldbox_message.dart';
 import 'package:provider/provider.dart';
 
 //stleswi
@@ -50,18 +52,26 @@ class _ChatView extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                 controller: chatProvider.chatScrollController,
-                itemCount: 10,
+                itemCount: chatProvider.messageList.length,
                 itemBuilder: (context, index) {
                   //return BubbleMessage();
                   //return OtherMessage();
-                  return index % 2 == 0
-                      ? const OtherMessage()
-                      : const BubbleMessage();
+                  // return index % 2 == 0
+                  //     ? const OtherMessage()
+                  //     : const BubbleMessage();
+                  final message = chatProvider.messageList[index];
+                  return (message.fromWho == FromWho.me)
+                      ? BubbleMessage(message: message)
+                      : OtherMessage(message: message);
+                   
+
                 },
               ),
             ),
-            Text('Pruebita 01'),
-            Text('Prueba 02'),
+            // Text('Pruebita 01'),
+            FieldboxMessage(
+              onValue: (value) => chatProvider.sendMessage(value),
+            ),
           ],
         ),
       ),

@@ -6,7 +6,8 @@ class YesNoModel {
   final String answer;
   final bool forced;
   final String image;
-
+  
+  //factory constructor
   factory YesNoModel.fromJsonMap(Map<String, dynamic> json) => YesNoModel(
     answer: json["answer"],
     forced: json["forced"],
